@@ -31,4 +31,6 @@ Besides, the calculation of CTE is easier in this coordinate system. We can simp
 
 ### Description of the solution to latency
 
-Since dt = 0.1, we can simply use the actuator value from one time step ahead when possible. 
+I first thought, since dt = 0.1, we can simply use the actuator value from one time step ahead when possible. 
+
+In the last review, the reviewer suggested a way to propagate the vehicle state by latency before sending into the controller. That is obviously a more general approach. So I implemented that and made sure the code still runs.

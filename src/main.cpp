@@ -93,6 +93,9 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+          double delta = j[1]["steering_angle"];
+          delta *= -1;
+          double a = j[1]["throttle"];
 
          //Display the waypoints/reference line
           vector<double> next_x_vals;
@@ -124,10 +127,24 @@ int main() {
 //          cout << way_py << endl;
           Eigen::VectorXd coeffs = polyfit(way_px, way_py, 3);
           double cte = polyeval(coeffs, 0);
-          double epsi = -atan(coeffs[1]); //linear approximation
+          double epsi = -atan(coeffs[1]); 
+
+
+          double latency = 0.1;
+          double Lf = 2.67;
+
+          psi = 0;
+          px = v * cos(psi) * latency;
+          py = v * sin(psi) * latency;
+          cte = cte + v*sin(epsi) * latency;
+          epsi = epsi + v * delta * latency/Lf;
+          psi += v * delta * latency /Lf;
+          v += a * latency;
+
+
 
           Eigen::VectorXd state = Eigen::VectorXd(6);
-          state << 0, 0, 0, v, cte, epsi;
+          state << px, py, psi, v, cte, epsi;
 
           vector<double> result = mpc.Solve(state, coeffs);
           double steer_value = result[0]/deg2rad(25);

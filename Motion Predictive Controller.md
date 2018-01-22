@@ -21,7 +21,7 @@ epsi1 = (psi0 - psides0 - v0 / Lf * delta0 * dt);
 
 In order to compensate for the latency dt is chosen to be 0.1s.
 
-A larger N allows estimations to more into the future. However it takes more time to compute. So I chose to make N = 50
+A larger N allows estimations to more into the future. However it takes more time to compute. So I chose to make N = 10. It seems to work pretty well.
 
 ### Description of waypoint preprocessing
 
